@@ -1,0 +1,17 @@
+﻿  Main.cpp
+  figuras.cpp
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\figuras.cpp(81,8): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+  vectors.cpp
+  Generando código...
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(33,1): warning C4172: dirección de devolución de variable local o temporal 
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(47,1): warning C4715: 'vec2::operator[]': no todas las rutas de acceso de control devuelven un valor
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(59,1): warning C4172: dirección de devolución de variable local o temporal 
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(29,1): warning C4172: dirección de devolución de variable local o temporal : resultado
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(21,1): warning C4172: dirección de devolución de variable local o temporal : resultado
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(64,1): warning C4172: dirección de devolución de variable local o temporal 
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(70,1): warning C4172: dirección de devolución de variable local o temporal 
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(75,1): warning C4172: dirección de devolución de variable local o temporal 
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(80,1): warning C4172: dirección de devolución de variable local o temporal 
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(98,1): warning C4172: dirección de devolución de variable local o temporal : resultado
+C:\Users\user\source\repos\MotoresClase1\MotoresClase1\vectors.cpp(115,1): warning C4715: 'vec3::operator[]': no todas las rutas de acceso de control devuelven un valor
+  MotoresClase1.vcxproj -> C:\Users\user\source\repos\MotoresClase1\x64\Debug\MotoresClase1.exe

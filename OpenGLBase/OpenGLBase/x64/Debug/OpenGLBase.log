@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\user\source\repos\OpenGLBase\OpenGLBase\main.cpp(129,19): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\user\source\repos\OpenGLBase\OpenGLBase\main.cpp(42,7): warning C4101: 'info': variable local sin referencia
+  OpenGLBase.vcxproj -> C:\Users\user\source\repos\OpenGLBase\x64\Debug\OpenGLBase.exe
