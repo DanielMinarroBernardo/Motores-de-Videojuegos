@@ -2,8 +2,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <cmath>
+#include "figuras.h"
+#include "Shader.h"
 
 GLFWwindow* ventana;
+
+const unsigned int W_WIDTH = 1024;
+const unsigned int W_HEIGHT = 768;
 
 int main() {
 
@@ -16,7 +21,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	ventana = glfwCreateWindow(1024, 768, "Testeo", NULL, NULL);
+	ventana = glfwCreateWindow(W_WIDTH, W_HEIGHT, "Testeo", NULL, NULL);
 
 	glfwMakeContextCurrent(ventana);
 	glewExperimental = GL_TRUE;
@@ -31,22 +36,9 @@ int main() {
 		"#version 330 core\n"
 		"layout(location = 0) in vec2 posicion; \n"
 		"void main() {\n"
-		"	gl_Position = vec4(posicion.x ,posicion.y , 0.5, 1.0);  \n"
+		"	gl_Position = vec4((posicion.x-512)/512 ,(384-posicion.y)/384 , 0.5, 1.0);  \n"
 		"}\0";
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	const char* temp_vs = vertexShaderCode.c_str();
-	glShaderSource(vertexShader, 1, &temp_vs, NULL);
-	glCompileShader(vertexShader);
-
-	int exito;
-	char info[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &exito);
-	if (exito) {
-		std::cout << "Compilado el Vertex Shader";
-	}
-	else {
-		std::cout << "No se ha compilado el Vertex Shader";
-	}
+	
 	// VERTEX SHADER FIN
 
 	// FRAGMENT SHADER INICIO
@@ -57,88 +49,54 @@ int main() {
 		"void main() {\n"
 		"	FragColor = MyColor;\n"
 		"}\0";
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	const char* temp_fs = fragmentShaderCode.c_str();
-	glShaderSource(fragmentShader, 1, &temp_fs, NULL);
-	glCompileShader(fragmentShader);
-
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &exito);
-	if (exito) {
-		std::cout << "Compilado el Fragment Shader";
-	}
-	else {
-		std::cout << "No se ha compilado el Fragment Shader";
-	}
 	// FRAGMENT SHADER FIN
 
-	//SHADER PROGRAM
+	Shader sh1(vertexShaderCode, fragmentShaderCode);
 
-	int shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
 
-	glUseProgram(shaderProgram);
-
-	// FIN SHADSER PROGRAM
+	Triangulo t({ 40,40 }, { 140,230 }, { 70,530 });
 
 
 	/// VERTICES A DIBUJAR
 
-	float vertices[]{
+	/*float vertices[]{
 		0.0f,0.0f,
 		1.0f,0.0f,
 		0.5f,1.0f
-	};
+	};*/
 	
-
-
-	unsigned int VAO; //Vertex array Object
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	unsigned int VBO; //Vertex Buffer Object
-
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		// GL_STREAM_DRAW-> meto los datos 1 vez , pero se utilizan poco
-		// GL_STATIC_DRAW -> meto los datos 1 ve y se utilizan mucho,pero no se mueven mucho
-		// GL_DYNAMIC_DRAW -> meto los datos muchas veces
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-		// 1º 0, porque hemos dicho que (posicion = 0)
-		// 2º 2, porque cada vertice esta en 2D, en 2 parametros
-		// 3º tipo de dato
-		// 4º no hace falta normalizar
-		// 5º tamaño de cada vertice -> stride
-		// 6º puntero
-	glEnableVertexAttribArray(0);
-
+	/*float vertices[]{
+		(W_WIDTH - t.a.x) / W_WIDTH, (W_HEIGHT - t.a.y) / W_HEIGHT,
+		(W_WIDTH - t.b.x) / W_WIDTH, (W_HEIGHT - t.b.y) / W_HEIGHT,
+		(W_WIDTH - t.c.x) / W_WIDTH, (W_HEIGHT - t.c.y) / W_HEIGHT,
+	};*/
 
 	float verde_cambiante = 0.0f;
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT);
+		//-----------------------------------------------------------------------------------------------------------------------------------------------
 		//inicio
-		int modificador_color = glGetUniformLocation(shaderProgram, "MyColor");
 
-		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO);
+		sh1.use();
+	
 
 		float timeValue = glfwGetTime();
-		verde_cambiante = sin(timeValue);
+		verde_cambiante = sin(timeValue);	
 
+		sh1.setColor({ 0.5f , verde_cambiante, 0.5f });
 
-		
-		//4f por vec4 de floats
-		glUniform4f(modificador_color, 0.5f, verde_cambiante, 0.5f, 1.0f);
+		if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+			t.a.x = t.a.x + 5;
+			t.b.x = t.b.x + 5;
+			t.c.x = t.c.y + 5;
+		}
 
-		
-		glDrawArrays(GL_TRIANGLES,0,3);
-
+		t.draw();
+			
 
 		//final
+		//-----------------------------------------------------------------------------------------------------------------------------------------------
 		glfwSwapBuffers(ventana);
 		glfwPollEvents();
 

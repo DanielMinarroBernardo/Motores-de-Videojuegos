@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\MotoresClase1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\figuras.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\figuras.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\vectors.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -46,13 +46,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "figuras.cpp",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\figuras.cpp",
               "RelativeDocumentMoniker": "MotoresClase1\\figuras.cpp",
               "ToolTip": "C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\figuras.cpp",
               "RelativeToolTip": "MotoresClase1\\figuras.cpp",
-              "ViewState": "AgIAADcAAAAAAAAAAAAwwFIAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAwwFIAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-17T10:21:27.614Z",
               "EditorCaption": ""
@@ -61,20 +61,21 @@
         },
         {
           "DockedWidth": 266,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Main.cpp",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\Main.cpp",
               "RelativeDocumentMoniker": "MotoresClase1\\Main.cpp",
               "ToolTip": "C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\Main.cpp",
               "RelativeToolTip": "MotoresClase1\\Main.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-13T12:43:09.458Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -90,13 +91,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "figuras.h",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\figuras.h",
               "RelativeDocumentMoniker": "MotoresClase1\\figuras.h",
               "ToolTip": "C:\\Users\\user\\source\\repos\\MotoresClase1\\MotoresClase1\\figuras.h",
               "RelativeToolTip": "MotoresClase1\\figuras.h",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-02-17T10:21:19.691Z",
               "EditorCaption": ""

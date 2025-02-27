@@ -1,10 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\OpenGLBase\\",
+  "WorkspaceRootPath": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|C:\\Users\\user\\source\\repos\\OpenGLBase\\OpenGLBase\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|solutionrelative:OpenGLBase\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|solutionrelative:OpenGLBase\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|solutionrelative:OpenGLBase\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\figuras.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|solutionrelative:OpenGLBase\\figuras.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D312B7C-A4B4-494B-AB66-19195FA7FE33}|OpenGLBase\\OpenGLBase.vcxproj|solutionrelative:OpenGLBase\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,18 +29,76 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
+          "DockedWidth": 224,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Shader.cpp",
+              "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\Shader.cpp",
+              "RelativeDocumentMoniker": "OpenGLBase\\Shader.cpp",
+              "ToolTip": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\Shader.cpp",
+              "RelativeToolTip": "OpenGLBase\\Shader.cpp",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-27T12:57:53.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Shader.h",
+              "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\Shader.h",
+              "RelativeDocumentMoniker": "OpenGLBase\\Shader.h",
+              "ToolTip": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\Shader.h",
+              "RelativeToolTip": "OpenGLBase\\Shader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-27T12:53:55.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "figuras.cpp",
+              "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\figuras.cpp",
+              "RelativeDocumentMoniker": "OpenGLBase\\figuras.cpp",
+              "ToolTip": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\figuras.cpp",
+              "RelativeToolTip": "OpenGLBase\\figuras.cpp",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAGwAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-27T12:00:42.262Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "figuras.h",
+              "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\figuras.h",
+              "RelativeDocumentMoniker": "OpenGLBase\\figuras.h",
+              "ToolTip": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\figuras.h",
+              "RelativeToolTip": "OpenGLBase\\figuras.h",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAC8AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-02-27T11:51:36.573Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 176,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\OpenGLBase\\OpenGLBase\\main.cpp",
+              "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\main.cpp",
               "RelativeDocumentMoniker": "OpenGLBase\\main.cpp",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\OpenGLBase\\OpenGLBase\\main.cpp",
+              "ToolTip": "D:\\DanielRepos\\Motores-de-Videojuegos\\OpenGLBase\\OpenGLBase\\main.cpp",
               "RelativeToolTip": "OpenGLBase\\main.cpp",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAAAIEAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAMwFYAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-10T10:10:35.397Z",
               "EditorCaption": ""
