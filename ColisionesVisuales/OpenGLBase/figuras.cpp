@@ -172,23 +172,30 @@ bool Rectangulo::colision(Circulo c) {
 	if (colocacion_h == 0 && colocacion_v == 0) { //esta dentro 
 		return true;
 	}
-	else if (colocacion_h > 0 && colocacion_v == 0 && abs(distX) < c.radio) {//EN Horizontal
-	
-		return true;
-	}
-	else if(colocacion_h == 0 && colocacion_v > 0 && abs(distY) < c.radio) { //En Vertical
-		
-		return true;
+	else if (colocacion_h > 0 && colocacion_v == 0 && abs(distX) <= c.radio) {//EN Horizontal
 
-	}
-	/*if (abs(distX) < c.radio && abs(distY) < c.radio) {
-		return true;
-	}*/
-	else if (colocacion_h > 0 && colocacion_v > 0 && abs(distX) * abs(distX) + abs(distY) * abs(distY) <= c.radio) {
-		{
-			return true;
+		if (colocacion_h == 1) {
+			this->vel.x = 300.0f;
 		}
+		else {
+			this->vel.x = -300.0f;
+		}
+		return true;
+	}
+	else if(colocacion_h == 0 && colocacion_v > 0 && abs(distY) <= c.radio) { //En Vertical
+		
+		if (colocacion_v == 1) {
+			this->vel.y = 300.0f;
+		}
+		else {
+			this->vel.y = -300.0f;
+		}
+		return true;
 
+	}
+	else if (colocacion_h > 0 && colocacion_v > 0 && distX * distX + distY * distY <= c.radio * c.radio) 
+	{	
+		return true;
 	}
 	else {
 		return false;
