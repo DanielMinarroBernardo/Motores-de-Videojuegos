@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\MotoresClase1\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\MotoresClase1\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\MotoresClase1\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|solutionrelative:MotoresClase1\\figuras.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE669C30-CC5C-4BD2-A1C5-F9F9A90353DC}|MotoresClase1\\MotoresClase1.vcxproj|D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\MotoresClase1\\figuras.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -46,7 +46,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "figuras.cpp",
               "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\MotoresClase1\\figuras.cpp",
               "RelativeDocumentMoniker": "MotoresClase1\\figuras.cpp",
@@ -65,7 +65,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Main.cpp",
               "DocumentMoniker": "D:\\DanielRepos\\Motores-de-Videojuegos\\MotoresClase1\\MotoresClase1\\Main.cpp",
               "RelativeDocumentMoniker": "MotoresClase1\\Main.cpp",
