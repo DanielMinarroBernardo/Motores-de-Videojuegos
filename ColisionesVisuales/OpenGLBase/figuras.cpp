@@ -135,10 +135,10 @@ bool Rectangulo::colision(Rectangulo r) {
 bool Rectangulo::colision(Circulo c) {
 
 	Punto2D temp(pos);
+
 	int colocacion_h = 0;
 	int colocacion_v = 0;
 
-	//Ariba Abajo
 	// El centro del circulo esta la izq del origen del rect
 	if (c.centro.x <= this->pos.x) {
 		temp.x = this->pos.x; // temp son rectas
@@ -160,44 +160,43 @@ bool Rectangulo::colision(Circulo c) {
 		temp.y = this->pos.y + this->diagonal.y;
 		colocacion_v = 2;
 	}
-	/*else {
-		return true;
-	}*/
-
 
 
 	float distX = c.centro.x - temp.x;
 	float distY = c.centro.y - temp.y;
 
-	if (colocacion_h == 0 && colocacion_v == 0) { //esta dentro 
+	if (colocacion_h == 0 && colocacion_v == 0) { /*ESTÁ DENTRO*/
+
 		return true;
 	}
-	else if (colocacion_h > 0 && colocacion_v == 0 && abs(distX) <= c.radio) {//EN Horizontal
 
+	else if (colocacion_h > 0 && colocacion_v == 0 && abs(distX) <= c.radio) { /*EN HORIZONTAL*/
 		if (colocacion_h == 1) {
-			this->vel.x = 300.0f;
+			this->vel.x = 300.f;
 		}
 		else {
-			this->vel.x = -300.0f;
+			this->vel.x = -300.f;
 		}
 		return true;
 	}
-	else if(colocacion_h == 0 && colocacion_v > 0 && abs(distY) <= c.radio) { //En Vertical
-		
-		if (colocacion_v == 1) {
-			this->vel.y = 300.0f;
-		}
-		else {
-			this->vel.y = -300.0f;
-		}
-		return true;
 
-	}
-	else if (colocacion_h > 0 && colocacion_v > 0 && distX * distX + distY * distY <= c.radio * c.radio) 
-	{	
+	else if (colocacion_h == 0 && colocacion_v > 0 && abs(distY) <= c.radio) { /*EN VERTICAL*/
+		if (colocacion_v == 1) {
+			this->vel.y = 300.f;
+		}
+		else {
+			this->vel.y = -300.f;
+		}
 		return true;
 	}
+
+	else if (colocacion_h > 0 && colocacion_v > 0 &&
+		distX * distX + distY * distY <= c.radio * c.radio) { /*ESTÁ EN UNA ESQUINA*/
+		return true;
+	}
+
 	else {
+
 		return false;
 	}
 }
@@ -303,14 +302,14 @@ void Rectangulo::draw() {
 void Rectangulo::move(double tiempo_trasncurrido) {
 	float v = 100.0f;
 
-	//std::cout << "Velocidad: " << v << "\n";
-	//std::cout << "Tiempo: " << tiempo_trasncurrido << "\n";
-	//std::cout << "Pos x0: " << pos.x << "\n";
+	std::cout << "Velocidad: " << v << "\n";
+	std::cout << "Tiempo: " << tiempo_trasncurrido << "\n";
+	std::cout << "Pos x0: " << pos.x << "\n";
 
 	pos.x = pos.x + vel.x * tiempo_trasncurrido;
 	pos.y = pos.y + vel.y * tiempo_trasncurrido;
 
-	//std::cout << "Pos x final: " << pos.x << "\n";
+	std::cout << "Pos x final: " << pos.x << "\n";
 }
 
 

@@ -1,5 +1,3 @@
-
-
 #include<iostream>
 
 #include<GL/glew.h>
@@ -79,7 +77,7 @@ int main() {
 	);
 
 	Circulo c(
-		50, { 200,190}
+		50, { 150, 190 }
 	);
 
 
@@ -123,7 +121,7 @@ int main() {
 		//std::cout << timeActualValue - timePastValue << "\n";
 
 
-		// INPUT
+		/*----------------------INPUT-----------------------------------------------*/
 		if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			//r.pos.x += 0.5;
 			r.vel.x = 100.0f;
@@ -133,30 +131,28 @@ int main() {
 			r.vel.x = -100.0f;
 			r.dirty_flag = true;
 		}
-		else if (glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE &&
-			glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
+		else if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE &&
+			glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE) {
 			r.vel.x = 0.0f;
+			r.dirty_flag = true;
 		}
+
 		if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS) {
-			//r.pos.x += 0.5;
 			r.vel.y = -100.0f;
 			r.dirty_flag = true;
 		}
+
 		else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS) {
 			r.vel.y = 100.0f;
 			r.dirty_flag = true;
 		}
-		
-		else if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_RELEASE && 
-			glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
+
+		else if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_RELEASE
+			&& glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
 			r.vel.y = 0.0f;
 		}
 
-
-
-		//FISICAS
-		r.move(timeActualValue - timePastValue);
-
+		/*---------------------------FÍSICAS----------------------------------------*/
 
 		if (r.colision(c)) {
 			sh1.setColor({ 1.0f, 0.7f, 0.1f });
@@ -165,8 +161,9 @@ int main() {
 			sh1.setColor({ 0.5f, verde_cambiante, 0.5f });
 		}
 
+		r.move(timeActualValue - timePastValue);
 
-
+		/*------------------------------s----RENDER------------------------------------*/
 
 		r.draw();
 		//r2.draw();
