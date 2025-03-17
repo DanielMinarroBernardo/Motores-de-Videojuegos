@@ -202,6 +202,12 @@ bool Rectangulo::colision(Circulo c) {
 }
 
 
+void Rectangulo::transform(glm::mat4 transformacion)
+{
+	this->transformacion_interna = transformacion * this->transformacion_interna;
+
+}
+
 void Rectangulo::draw() {
 
 	if (this->VBO == 0) {
@@ -240,11 +246,17 @@ void Rectangulo::draw() {
 		//};
 		//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_DYNAMIC_DRAW);
 
+
+		glm::vec4 diagonaltransformada(this->diagonal.x,this->diagonal.y,0.0f,1.0f);
+
+		diagonaltransformada = this->transformacion_interna * diagonaltransformada;
+
+
 		float vertices[] = {
 				this->pos.x, this->pos.y, // 0
-				this->pos.x, this->pos.y + this->diagonal.y, // 1
-				this->pos.x + this->diagonal.x, this->pos.y + this->diagonal.y, // 2
-				this->pos.x + this->diagonal.x, this->pos.y, // 3
+				this->pos.x, this->pos.y + diagonaltransformada.y, // 1
+				this->pos.x + diagonaltransformada.x, this->pos.y + diagonaltransformada.y, // 2
+				this->pos.x + diagonaltransformada.x, this->pos.y, // 3
 		};
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, vertices, GL_DYNAMIC_DRAW);
 		// GL_STREAM_DRAW -> meto los datos 1 vez, pero se utilizan poco

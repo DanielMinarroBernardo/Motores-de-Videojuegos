@@ -35,8 +35,8 @@ int main() {
 
 	glewInit();
 
-
-	/// VERTEX SHADER
+	// VERTEX SHADER 2D
+	/*
 	std::string vertexShaderCode =
 		"#version 330 core\n"
 
@@ -62,14 +62,51 @@ int main() {
 		"}\0";
 
 	Shader sh1(vertexShaderCode, fragmentShaderCode);
+	*/
+
+	// VERTEX SHADER 2D
+	
+	std::string vertexShaderCode3D =
+		"#version 330 core\n"
+
+		"layout (location = 0) in vec2 posicion; \n"
+		
+		"uniform mat4 transform;\n"
+		
+		"void main() {\n"
+		
+		"   gl_Position = transform * vec4(posicion, 0.0f, 1.0f);\n"
+
+		//"   gl_Position = vec4( (posicion.x - 512) / 512, \n"
+		//"	(384 - posicion.y) / 384, 0.5, 1.0); \n"
+
+		"}\0";
+
+	/// FRAGMENT SHADER
+	std::string fragmentShaderCode3D =
+		"#version 330 core\n"
+
+		"out vec4 FragColor; \n"
+		"uniform vec4 miColor; \n"
+
+		"void main() {\n"
+		"    FragColor = miColor; \n"
+		"}\0";
+
+	Shader sh2(vertexShaderCode3D, fragmentShaderCode3D);
+
 
 	Triangulo t(
 		{ 230,100 }, { 60,600 }, { 15,15 }
 	);
 
 
-	Rectangulo r(
+	/*Rectangulo r(
 		{ 10,40 }, { 100,170 }
+	);*/
+
+	Rectangulo r(
+		{ 0.25f,0.25f }, { 0.25f,0.25f }
 	);
 
 	Rectangulo r2(
@@ -79,6 +116,10 @@ int main() {
 	Circulo c(
 		50, { 150, 190 }
 	);
+
+
+
+
 
 
 
@@ -111,7 +152,7 @@ int main() {
 		// INICIO
 
 
-		sh1.use();
+		sh2.use();
 		timePastValue = timeActualValue;
 		timeActualValue = glfwGetTime();
 
@@ -122,53 +163,73 @@ int main() {
 
 
 		/*----------------------INPUT-----------------------------------------------*/
-		if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-			//r.pos.x += 0.5;
-			r.vel.x = 100.0f;
-			r.dirty_flag = true;
-		}
-		else if (glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_PRESS) {
-			r.vel.x = -100.0f;
-			r.dirty_flag = true;
-		}
-		else if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE &&
-			glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE) {
-			r.vel.x = 0.0f;
-			r.dirty_flag = true;
-		}
+		//if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		//	//r.pos.x += 0.5;
+		//	r.vel.x = 100.0f;
+		//	r.dirty_flag = true;
+		//}
+		//else if (glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		//	r.vel.x = -100.0f;
+		//	r.dirty_flag = true;
+		//}
+		//else if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE &&
+		//	glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE) {
+		//	r.vel.x = 0.0f;
+		//	r.dirty_flag = true;
+		//}
 
-		if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS) {
-			r.vel.y = -100.0f;
-			r.dirty_flag = true;
-		}
+		//if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS) {
+		//	r.vel.y = -100.0f;
+		//	r.dirty_flag = true;
+		//}
 
-		else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS) {
-			r.vel.y = 100.0f;
-			r.dirty_flag = true;
-		}
+		//else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		//	r.vel.y = 100.0f;
+		//	r.dirty_flag = true;
+		//}
 
-		else if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_RELEASE
-			&& glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
-			r.vel.y = 0.0f;
-		}
+		//else if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_RELEASE
+		//	&& glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
+		//	r.vel.y = 0.0f;
+		//}
 
 		/*---------------------------FÍSICAS----------------------------------------*/
 
-		if (r.colision(c)) {
-			sh1.setColor({ 1.0f, 0.7f, 0.1f });
+	/*	if (r.colision(c)) {
+			sh2.setColor({ 1.0f, 0.7f, 0.1f });
 		}
 		else {
-			sh1.setColor({ 0.5f, verde_cambiante, 0.5f });
+			sh2.setColor({ 0.5f, verde_cambiante, 0.5f });
 		}
 
-		r.move(timeActualValue - timePastValue);
+		r.move(timeActualValue - timePastValue);*/
 
-		/*------------------------------s----RENDER------------------------------------*/
+		/*----------------------------RENDER----------------------------------------*/
+		sh2.setColor({ 1.0f, 0.7f, 0.1f });
+		glm::mat4 transformacion_total;
+		
+		
+		//-----matriz de escalado
+		//transformacion_total = glm::scale(transformacion_total, glm::vec3(2.0f, 1.0f, 1.0f));
+		
+		//-----matriz de rotacion
+		//transformacion_total = glm::rotate(transformacion_total, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		
+		//-----matriz de translacion
+		//transformacion_total = glm::translate(transformacion_total, glm::vec3(-0.25f, -0.25f, 0.0f));
+
+		//sh2.setTransformMatrix(transformacion_total);
+		
+		
+		glm::mat4 transformacion_modelo = glm::mat4(1.0f);
+		transformacion_modelo = glm::scale(transformacion_modelo, glm::vec3(2.0f, 1.0f, 1.0f));
+		r.transform(transformacion_modelo);
+
 
 		r.draw();
 		//r2.draw();
 		//t.draw();
-		c.draw(50);
+		//c.draw(50);
 
 
 

@@ -54,3 +54,9 @@ void Shader::setColor(vec3 color) {
 
 	glUniform4f(modificador_color, color.x, color.y, color.z, 1.0f);
 }
+
+void Shader::setTransformMatrix(glm::mat4 transform) {
+	int matriz_transf = glGetUniformLocation(this->programID, "transforms");
+	
+	glUniformMatrix4fv(matriz_transf, 1, GL_FALSE, glm::value_ptr(transform));
+}

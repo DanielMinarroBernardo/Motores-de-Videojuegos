@@ -2,6 +2,8 @@
 #include "vectors.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
+#include "glm.hpp"
+#include "ext.hpp"
 
 typedef vec2 Punto2D;
 
@@ -40,6 +42,8 @@ struct Rectangulo {
 	Punto2D pos;
 	vec2 vel = { 0,0 };
 	vec2 diagonal;
+	glm::mat4 transformacion_interna  = glm::mat4(1.0f);
+
 	unsigned int VBO = 0, IBO = 0, VAO = 0;
 	bool dirty_flag = false;
 	Rectangulo(Punto2D pos, vec2 diagonal) :
@@ -48,6 +52,8 @@ struct Rectangulo {
 	Rectangulo(vec2 diagonal) :
 		diagonal(diagonal) {
 	}
+	//transformaciones
+	void transform(glm::mat4 transformacion);
 
 	// renderizado
 	void draw();

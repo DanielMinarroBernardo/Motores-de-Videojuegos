@@ -2,6 +2,8 @@
 
 #include<iostream>
 #include "vectors.h"
+#include "glm.hpp"
+#include "ext.hpp"
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -19,6 +21,7 @@ public:
 
 	void setColor(vec3 color);
 
+	void setTransformMatrix(glm::mat4 transform);
 };
 
 
