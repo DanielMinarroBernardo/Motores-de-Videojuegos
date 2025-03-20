@@ -238,26 +238,26 @@ void Rectangulo::draw() {
 		glm::vec4 diagonal_transf(this->diagonal.x, this->diagonal.y, 0.0f, 1.0f);
 
 		diagonal_transf = this->transf_interna * diagonal_transf;
-
+		
 		float vertices[] = {
-				this->pos.x, this->pos.y, // 0
-				this->pos.x, this->pos.y + diagonal_transf.y, // 1
-				this->pos.x + diagonal_transf.x, this->pos.y + diagonal_transf.y, // 2
-				this->pos.x + diagonal_transf.x, this->pos.y, // 3
+			this->pos.x, this->pos.y,																1.0f,0.0f,0.0f,// 0
+			this->pos.x, this->pos.y + this->diagonal.y,											1.0f,0.0f,0.0f,// 1
+			this->pos.x + this->diagonal.x, this->pos.y + this->diagonal.y,							1.0f,0.0f,0.0f,// 2
+			this->pos.x + this->diagonal.x, this->pos.y,											1.0f,0.0f,0.0f,// 3
+
+			this->pos.x, this->pos.y,																0.0f,0.0f,1.0f,// 4
+			this->pos.x, this->pos.y + diagonal.y * 2,												0.0f,0.0f,1.0f,// 5
+
+			this->pos.x, this->pos.y,																0.0f,0.0f,1.0f,// 6
+			this->pos.x + diagonal.x * 2, this->pos.y,												0.0f,0.0f,1.0f,// 7
 		};
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, vertices, GL_DYNAMIC_DRAW);
-		// GL_STREAM_DRAW -> meto los datos 1 vez, pero se utilizan poco
-		// GL_STATIC_DRAW -> meto los datos 1 vez, y se utilizan mucho, pero no se mueven mucho
-		// GL_DYNAMIC_DRAW -> meto los datos muchas veces
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-		// 1º 0, porque hemos dicho que (position = 0)
-		// 2º 2, porque cada vertice esta en 2D, 2 parametros
-		// 3º tipo de dato
-		// 4º no hace falta normalizar
-		// 5º tamaño de cada vertices -> stride
-		// 6º puntero 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 40, vertices, GL_DYNAMIC_DRAW);
+	
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+		glEnableVertexAttribArray(1);
 
 		// Unbind
 		glBindVertexArray(0);
@@ -278,10 +278,16 @@ void Rectangulo::draw() {
 
 			glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
 			float vertices[] = {
-				this->pos.x, this->pos.y, // 0
-				this->pos.x, this->pos.y + this->diagonal.y, // 1
-				this->pos.x + this->diagonal.x, this->pos.y + this->diagonal.y, // 2
-				this->pos.x + this->diagonal.x, this->pos.y, // 3
+				this->pos.x, this->pos.y,																1.0f,0.0f,0.0f,// 0
+				this->pos.x, this->pos.y + this->diagonal.y,											1.0f,0.0f,0.0f,// 1
+				this->pos.x + this->diagonal.x, this->pos.y + this->diagonal.y,							1.0f,0.0f,0.0f,// 2
+				this->pos.x + this->diagonal.x, this->pos.y,											1.0f,0.0f,0.0f,// 3
+
+				this->pos.x, this->pos.y,																0.0f,0.0f,1.0f,// 4
+				this->pos.x, this->pos.y + diagonal.y * 2,												0.0f,0.0f,1.0f,// 5
+
+				this->pos.x, this->pos.y,																0.0f,0.0f,1.0f,// 6
+				this->pos.x + diagonal.x * 2, this->pos.y,												0.0f,0.0f,1.0f,// 7
 			};
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, vertices, GL_DYNAMIC_DRAW);
 			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
@@ -290,6 +296,7 @@ void Rectangulo::draw() {
 
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_LINES, 0, 8);
 
 		// Unbind
 		glBindVertexArray(0);

@@ -21,7 +21,8 @@ public:
 	// Opcionalmente, acceso a los uniforms
 
 	void setColor(vec3 color);
-	void setTransformMatrix(glm::mat4 transform);
+	void setViewMatrix(glm::mat4 transform);
+	void setModelMatrix(glm::mat4 transform);
 };
 
 

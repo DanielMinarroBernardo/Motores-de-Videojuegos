@@ -70,10 +70,17 @@ int main() {
 		"#version 330 core\n"
 
 		"layout (location = 0) in vec2 posicion; \n"
-		"uniform mat4 transform;\n"
+		"layout (location = 1) in vec3 color; \n"
+
+		"out vec3 colorVertice; \n"
+
+		"uniform mat4 view;\n"
+		"uniform mat4 model;\n"
+		
 		"void main() {\n"
 
-		"	gl_Position = transform * vec4(posicion, 0.0f, 1.0f);\n"
+		"	gl_Position = view * model * vec4(posicion, 0.0f, 1.0f);\n"
+		"	colorVertice = color;\n"
 		"}\0";
 
 	/// FRAGMENT SHADER
@@ -81,10 +88,12 @@ int main() {
 		"#version 330 core\n"
 
 		"out vec4 FragColor; \n"
-		"uniform vec4 miColor; \n"
+		"in vec3 colorVertice; \n"
+
+		//"uniform vec4 miColor; \n"
 
 		"void main() {\n"
-		"    FragColor = miColor; \n"
+		"    FragColor = vec4(colorVertice,1.0f); \n"
 		"}\0";
 
 	Shader sh2(vertexShaderCode2, fragmentShaderCode2);
@@ -100,7 +109,7 @@ int main() {
 		{ 10,40 }, { 100,170 }
 	);*/
 	Rectangulo r(
-		{ -0.5f, -0.5f }, { 0.5f, 0.5f }
+		{ 0.0f, 0.0f }, { 0.5f, 0.5f }
 	);
 
 	Rectangulo r2(
@@ -110,10 +119,7 @@ int main() {
 	RectanguloRotado rr(
 		{0.0f,0.0f}, {0.1f, 0.1f}, {-0.1f, 0.1f}
 	);
-	/*RectanguloRotado rr(
-		{0.0f,0.0f}, 0.25f, 0.1f, 90
-	);*/
-
+	
 	Circulo c(
 		50, { 150, 190 }
 	);
@@ -150,6 +156,38 @@ int main() {
 	float timePastValue = 0;
 	float timeActualValue = 0;
 	float verde_cambiante = 0.5f;
+
+
+
+
+	unsigned int VAO; // vertex array object
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	unsigned int VBO; // vertex buffer object
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	float vertices[] = {
+			0.0f,0.0f,				0.0f,1.0f,0.0f,	//Eje x
+			1.0f,0.0f,				0.0f,1.0f,0.0f,
+			0.0f,0.0f,				0.0f,1.0f,0.0f, //Eje y
+			0.0f,1.0f,				0.0f,1.0f,0.0f	
+	};
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 20, vertices, GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+
+	// Unbind
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -201,12 +239,18 @@ int main() {
 		sh2.setColor({ 1.0f, 0.7f, 0.1f });
 
 
-		glm::mat4 transf_total = glm::mat4(1.0f);
+		glm::mat4 transf_model = glm::mat4(1.0f);
 		//transf_total = glm::scale(transf_total, glm::vec3(0.5f, 1.0f, 1.0f));
 		//transf_total = glm::rotate(transf_total, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		//transf_total = glm::translate(transf_total, glm::vec3(-0.25f, -0.25f, 0.0f));
-		sh2.setTransformMatrix(transf_total);
+		sh2.setModelMatrix(transf_model);
 
+
+		glm::mat4 transf_view = glm::mat4(1.0f);
+
+		//transf_view = glm::translate(transf_view, glm::vec3(0.5f, 0.0f, 0.0f));
+
+		sh2.setViewMatrix(transf_view);
 
 		//glm::mat4 transf_model = glm::mat4(1.0f);
 		//transf_model = glm::scale(transf_model, glm::vec3(0.5f, 1.0f, 1.0f));
@@ -227,12 +271,42 @@ int main() {
 
 		// Render
 
-		//r.draw();
+		//Dibujo de los ejes
+		
+		glm::mat4 transf_ejes = glm::mat4(1.0f);
+		sh2.setModelMatrix(transf_ejes);
+		sh2.setViewMatrix(transf_ejes);
+
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_LINES, 0, 4);
+		// Unbind
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+
+		//CAMARA
+		sh2.setViewMatrix(transf_ejes);
+
+
+
+
+		//Dibujo del triangulo
+		glm::mat4 transf_rect = glm::mat4(1.0f);
+		transf_rect = glm::translate(transf_rect, glm::vec3(0.5f, 0.0f, 0.0f));
+		sh2.setModelMatrix(transf_rect);
+		r.draw();
+
+
+
+
+
+
 		//r2.draw();
 		//t.draw();
 		/*c.draw(50);*/
 
-		rr.draw();
+		//rr.draw();
 
 
 		
