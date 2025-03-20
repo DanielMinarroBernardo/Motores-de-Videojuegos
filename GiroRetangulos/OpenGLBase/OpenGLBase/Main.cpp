@@ -1,3 +1,5 @@
+
+
 #include<iostream>
 
 #include<GL/glew.h>
@@ -35,19 +37,16 @@ int main() {
 
 	glewInit();
 
-	// VERTEX SHADER 2D
-	/*
+
+	/// VERTEX SHADER
 	std::string vertexShaderCode =
 		"#version 330 core\n"
 
 		"layout (location = 0) in vec2 posicion; \n"
 
 		"void main() {\n"
-		//"	  float x_norm = float ((posicion.x - 512) / 512);\n"	
-		//"	  float y_norm = float ((384 - posicion.y) / 384);\n"
-		"   gl_Position = vec4( (posicion.x - 512) / 512, \n"
+		"   gl_Position = vec4( (posicion.x - 512) / 512, \n" 
 		"	(384 - posicion.y) / 384, 0.5, 1.0); \n"
-		//"    gl_Position = vec4(posicion.x, posicion.y, 0.5, 1.0); \n"
 		"}\0";
 
 	/// FRAGMENT SHADER
@@ -62,28 +61,23 @@ int main() {
 		"}\0";
 
 	Shader sh1(vertexShaderCode, fragmentShaderCode);
-	*/
 
-	// VERTEX SHADER 2D
-	
-	std::string vertexShaderCode3D =
+
+
+	// 3D
+
+	std::string vertexShaderCode2 =
 		"#version 330 core\n"
 
 		"layout (location = 0) in vec2 posicion; \n"
-		
 		"uniform mat4 transform;\n"
-		
 		"void main() {\n"
-		
-		"   gl_Position = transform * vec4(posicion, 0.0f, 1.0f);\n"
 
-		//"   gl_Position = vec4( (posicion.x - 512) / 512, \n"
-		//"	(384 - posicion.y) / 384, 0.5, 1.0); \n"
-
+		"	gl_Position = transform * vec4(posicion, 0.0f, 1.0f);\n"
 		"}\0";
 
 	/// FRAGMENT SHADER
-	std::string fragmentShaderCode3D =
+	std::string fragmentShaderCode2 =
 		"#version 330 core\n"
 
 		"out vec4 FragColor; \n"
@@ -93,25 +87,32 @@ int main() {
 		"    FragColor = miColor; \n"
 		"}\0";
 
-	Shader sh2(vertexShaderCode3D, fragmentShaderCode3D);
+	Shader sh2(vertexShaderCode2, fragmentShaderCode2);
+
 
 
 	Triangulo t(
-		{ 230,100 }, { 60,600 }, { 15,15 }
+		{ 230,100}, { 60,600 }, {15,15}
 	);
 
 
 	/*Rectangulo r(
 		{ 10,40 }, { 100,170 }
 	);*/
-
 	Rectangulo r(
-		{ 0.25f,0.25f }, { 0.25f,0.25f }
+		{ -0.5f, -0.5f }, { 0.5f, 0.5f }
 	);
 
 	Rectangulo r2(
 		{ 150,150 }, { 230,230 }
 	);
+
+	RectanguloRotado rr(
+		{0.0f,0.0f}, {0.1f, 0.1f}, {-0.1f, 0.1f}
+	);
+	/*RectanguloRotado rr(
+		{0.0f,0.0f}, 0.25f, 0.1f, 90
+	);*/
 
 	Circulo c(
 		50, { 150, 190 }
@@ -125,21 +126,24 @@ int main() {
 
 
 
-	//PROJECTION
-	glm::mat4 Projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
+	////PROJECTION
+	//glm::mat4 Projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
 
-	//VIEW
-	glm::mat4 View = glm::mat4(1.);
-	View = glm::translate(View, glm::vec3(2.0f, 4.0f, -25.0f));
+	////VIEW
+	//glm::mat4 View = glm::mat4(1.);
+	//View = glm::translate(View, glm::vec3(2.0f, 4.0f, -25.0f));
 
-	//MODEL
-	glm::mat4 Model = glm::mat4(1.0);
-	//Scale by factor 0.5
-	//Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+	////MODEL
+	//glm::mat4 Model = glm::mat4(1.0);
+	////Scale by factor 0.5
+	////Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 
-	Model = glm::rotate(Model, 0.03f, glm::vec3(0.0f, 1.0f, 0.0f));
+	//Model = glm::rotate(Model, 0.03f, glm::vec3(0.0f, 1.0f, 0.0f));
 
-	std::cout << Model[0][0];
+	//std::cout << Model[0][0];
+
+
+
 
 
 
@@ -151,10 +155,10 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		// INICIO
 
-
+		
 		sh2.use();
-		timePastValue = timeActualValue;
-		timeActualValue = glfwGetTime();
+		/*timePastValue = timeActualValue;
+		timeActualValue = glfwGetTime();*/
 
 		//verde_cambiante = sin(timeValue);
 
@@ -162,7 +166,8 @@ int main() {
 		//std::cout << timeActualValue - timePastValue << "\n";
 
 
-		/*----------------------INPUT-----------------------------------------------*/
+		// Input
+
 		//if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		//	//r.pos.x += 0.5;
 		//	r.vel.x = 100.0f;
@@ -175,65 +180,62 @@ int main() {
 		//else if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE &&
 		//	glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE) {
 		//	r.vel.x = 0.0f;
-		//	r.dirty_flag = true;
 		//}
 
 		//if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS) {
 		//	r.vel.y = -100.0f;
 		//	r.dirty_flag = true;
 		//}
-
 		//else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		//	r.vel.y = 100.0f;
 		//	r.dirty_flag = true;
 		//}
-
-		//else if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_RELEASE
-		//	&& glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
+		//else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE && 
+		//	glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
 		//	r.vel.y = 0.0f;
 		//}
+		
 
-		/*---------------------------FÍSICAS----------------------------------------*/
 
-	/*	if (r.colision(c)) {
-			sh2.setColor({ 1.0f, 0.7f, 0.1f });
-		}
-		else {
-			sh2.setColor({ 0.5f, verde_cambiante, 0.5f });
-		}
 
-		r.move(timeActualValue - timePastValue);*/
-
-		/*----------------------------RENDER----------------------------------------*/
 		sh2.setColor({ 1.0f, 0.7f, 0.1f });
-		glm::mat4 transformacion_total;
-		
-		
-		//-----matriz de escalado
-		//transformacion_total = glm::scale(transformacion_total, glm::vec3(2.0f, 1.0f, 1.0f));
-		
-		//-----matriz de rotacion
-		//transformacion_total = glm::rotate(transformacion_total, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		
-		//-----matriz de translacion
-		//transformacion_total = glm::translate(transformacion_total, glm::vec3(-0.25f, -0.25f, 0.0f));
-
-		//sh2.setTransformMatrix(transformacion_total);
-		
-		
-		glm::mat4 transformacion_modelo = glm::mat4(1.0f);
-		transformacion_modelo = glm::scale(transformacion_modelo, glm::vec3(2.0f, 1.0f, 1.0f));
-		r.transform(transformacion_modelo);
 
 
-		r.draw();
+		glm::mat4 transf_total = glm::mat4(1.0f);
+		//transf_total = glm::scale(transf_total, glm::vec3(0.5f, 1.0f, 1.0f));
+		//transf_total = glm::rotate(transf_total, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		//transf_total = glm::translate(transf_total, glm::vec3(-0.25f, -0.25f, 0.0f));
+		sh2.setTransformMatrix(transf_total);
+
+
+		//glm::mat4 transf_model = glm::mat4(1.0f);
+		//transf_model = glm::scale(transf_model, glm::vec3(0.5f, 1.0f, 1.0f));
+		//transf_model = glm::rotate(transf_model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		//r.transform(transf_model);
+		
+		
+		//// Fisicas
+		//if (r.colision(c)) {
+		//	sh1.setColor({ 1.0f, 0.7f, 0.1f });
+		//}
+		//else {
+		//	sh1.setColor({ 0.5f, verde_cambiante, 0.5f });
+		//}
+		//
+		/*r.move(timeActualValue - timePastValue);*/
+
+
+		// Render
+
+		//r.draw();
 		//r2.draw();
 		//t.draw();
-		//c.draw(50);
+		/*c.draw(50);*/
+
+		rr.draw();
+
 
 		
-
-
 		//FINAL
 		glfwSwapBuffers(ventana);
 		glfwPollEvents();
