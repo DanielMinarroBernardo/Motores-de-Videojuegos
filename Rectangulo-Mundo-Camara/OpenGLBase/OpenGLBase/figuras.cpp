@@ -126,10 +126,10 @@ void Circulo::draw(float num_segmentos) {
 
 
 bool Rectangulo::colision(Rectangulo r) {
-	return this->pos.x + this->diagonal.x > r.pos.x &&
-		this->pos.x < r.pos.x + r.diagonal.x &&
-		this->pos.y + this->diagonal.y > r.pos.y &&
-		this->pos.y < r.pos.y + r.diagonal.y;
+	return 0.0f + this->diagonal.x > r.pos.x &&
+		0.0f < r.pos.x + r.diagonal.x &&
+		0.0f + this->diagonal.y > r.pos.y &&
+		0.0f < r.pos.y + r.diagonal.y;
 }
 
 bool Rectangulo::colision(Circulo c) {
@@ -140,24 +140,24 @@ bool Rectangulo::colision(Circulo c) {
 	int colocacion_v = 0;
 
 	// El centro del circulo esta la izq del origen del rect
-	if (c.centro.x <= this->pos.x) {
-		temp.x = this->pos.x; // temp son rectas
+	if (c.centro.x <= 0.0f) {
+		temp.x = 0.0f; // temp son rectas
 		colocacion_h = 1;
 	}
 	// El centro del circulo esta la dcha del rect (origen + ancho)
-	else if (c.centro.x >= this->pos.x + this->diagonal.x) {
-		temp.x = this->pos.x + this->diagonal.x;
+	else if (c.centro.x >= 0.0f + this->diagonal.x) {
+		temp.x = 0.0f + this->diagonal.x;
 		colocacion_h = 2;
 	}
 
 	// El centro del circulo esta la arriba del origen del rect
-	if (c.centro.y <= this->pos.y) {
-		temp.y = this->pos.y; // temp son rectas
+	if (c.centro.y <= 0.0f) {
+		temp.y = 0.0f; // temp son rectas
 		colocacion_v = 1;
 	}
 	// El centro del circulo esta la debajo del rect (origen + alto)
-	else if (c.centro.y >= this->pos.y + this->diagonal.y) {
-		temp.y = this->pos.y + this->diagonal.y;
+	else if (c.centro.y >= 0.0f + this->diagonal.y) {
+		temp.y = 0.0f + this->diagonal.y;
 		colocacion_v = 2;
 	}
 
@@ -197,7 +197,7 @@ bool Rectangulo::colision(Circulo c) {
 }
 
 
-void Rectangulo::draw() {
+void Rectangulo::draw(Shader sh) {
 
 	if (this->VBO == 0) {
 		//unsigned int VAO; // vertex array object
@@ -225,31 +225,29 @@ void Rectangulo::draw() {
 
 		//   SIN IBOs
 		//float vertices[] = {
-		//		this->pos.x, this->pos.y, // 0
-		//		this->pos.x, this->pos.y + this->diagonal.y, // 1
-		//		this->pos.x + this->diagonal.x, this->pos.y + this->diagonal.y, // 2
+		//		0.0f, 0.0f, // 0
+		//		0.0f, 0.0f + this->diagonal.y, // 1
+		//		0.0f + this->diagonal.x, 0.0f + this->diagonal.y, // 2
 
-		//		this->pos.x + this->diagonal.x, this->pos.y + this->diagonal.y, // 2
-		//		this->pos.x + this->diagonal.x, this->pos.y, // 3
-		//		this->pos.x, this->pos.y, // 0
+		//		0.0f + this->diagonal.x, 0.0f + this->diagonal.y, // 2
+		//		0.0f + this->diagonal.x, 0.0f, // 3
+		//		0.0f, 0.0f, // 0
 		//};
 		//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_DYNAMIC_DRAW);
 
-		glm::vec4 diagonal_transf(this->diagonal.x, this->diagonal.y, 0.0f, 1.0f);
 
-		diagonal_transf = this->transf_interna * diagonal_transf;
 
 		float vertices[] = {
-				this->pos.x, this->pos.y,													1.0f, 0.0f, 0.0f, // 0
-				this->pos.x, this->pos.y + diagonal_transf.y,								1.0f, 0.0f, 0.0f, // 1
-				this->pos.x + diagonal_transf.x, this->pos.y + diagonal_transf.y,			1.0f, 0.0f, 0.0f, // 2
-				this->pos.x + diagonal_transf.x, this->pos.y,								1.0f, 0.0f, 0.0f, // 3
+				0.0f, 0.0f,													1.0f, 0.0f, 0.0f, // 0
+				0.0f, 0.0f + diagonal.y,								1.0f, 0.0f, 0.0f, // 1
+				0.0f + diagonal.x, 0.0f + diagonal.y,			1.0f, 0.0f, 0.0f, // 2
+				0.0f + diagonal.x, 0.0f,								1.0f, 0.0f, 0.0f, // 3
 
-				this->pos.x, this->pos.y,													0.0f, 0.0f, 1.0f, // 4
-				this->pos.x, this->pos.y + diagonal_transf.y * 2,							0.0f, 0.0f, 1.0f, // 5
+				0.0f, 0.0f,													0.0f, 0.0f, 1.0f, // 4
+				0.0f, 0.0f + diagonal.y * 2,							0.0f, 0.0f, 1.0f, // 5
 
-				this->pos.x, this->pos.y,													0.0f, 0.0f, 1.0f, // 6
-				this->pos.x + diagonal_transf.x * 2, this->pos.y,							0.0f, 0.0f, 1.0f, // 7
+				0.0f, 0.0f,													0.0f, 0.0f, 1.0f, // 6
+				0.0f + diagonal.x * 2, 0.0f,							0.0f, 0.0f, 1.0f, // 7
 		};
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 40, vertices, GL_DYNAMIC_DRAW);
 		// GL_STREAM_DRAW -> meto los datos 1 vez, pero se utilizan poco
@@ -290,27 +288,37 @@ void Rectangulo::draw() {
 
 			glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
 
-			glm::vec4 diagonal_transf(this->diagonal.x, this->diagonal.y, 0.0f, 1.0f);
-
-			diagonal_transf = this->transf_interna * diagonal_transf;
 
 			float vertices[] = {
-				this->pos.x, this->pos.y,													1.0f, 0.0f, 0.0f, // 0
-				this->pos.x, this->pos.y + diagonal_transf.y,								1.0f, 0.0f, 0.0f, // 1
-				this->pos.x + diagonal_transf.x, this->pos.y + diagonal_transf.y,			1.0f, 0.0f, 0.0f, // 2
-				this->pos.x + diagonal_transf.x, this->pos.y,								1.0f, 0.0f, 0.0f, // 3
+				0.0f, 0.0f,													1.0f, 0.0f, 0.0f, // 0
+				0.0f, 0.0f + diagonal.y,								1.0f, 0.0f, 0.0f, // 1
+				0.0f + diagonal.x, 0.0f + diagonal.y,			1.0f, 0.0f, 0.0f, // 2
+				0.0f + diagonal.x, 0.0f,								1.0f, 0.0f, 0.0f, // 3
 
-				this->pos.x, this->pos.y,													0.0f, 0.0f, 1.0f, // 4
-				this->pos.x, this->pos.y + diagonal_transf.y * 2,							0.0f, 0.0f, 1.0f, // 5
+				0.0f, 0.0f,													0.0f, 0.0f, 1.0f, // 4
+				0.0f, 0.0f + diagonal.y * 2,							0.0f, 0.0f, 1.0f, // 5
 
-				this->pos.x, this->pos.y,													0.0f, 0.0f, 1.0f, // 6
-				this->pos.x + diagonal_transf.x * 2, this->pos.y,							0.0f, 0.0f, 1.0f, // 7
+				0.0f, 0.0f,													0.0f, 0.0f, 1.0f, // 6
+				0.0f + diagonal.x * 2, 0.0f,							0.0f, 0.0f, 1.0f, // 7
 			};
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 16, vertices, GL_DYNAMIC_DRAW);
 			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 			glEnableVertexAttribArray(0);
 		}
 
+
+
+		//Declarar posicion, rotacion y scala en el render
+
+		glm::mat4 transf_rect = glm::mat4(1.0f);
+		transf_rect = glm::translate(transf_rect, glm::vec3(pos.x, pos.y, 0.0f));
+		transf_rect = glm::scale(transf_rect, glm::vec3(scl,scl,scl));
+		transf_rect = glm::rotate(transf_rect,glm::radians(rot), glm::vec3(1.0f,0.0f,1.0f));
+		sh.setModelMatrix(transf_rect);
+
+
+			
+	
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

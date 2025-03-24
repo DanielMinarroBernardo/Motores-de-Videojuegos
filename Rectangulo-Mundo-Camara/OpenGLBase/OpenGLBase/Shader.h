@@ -23,6 +23,7 @@ public:
 	void setColor(vec3 color);
 	void setViewMatrix(glm::mat4 transform);
 	void setModelMatrix(glm::mat4 transform);
+	void setProjMatrix(glm::mat4 transform);
 };
 
 

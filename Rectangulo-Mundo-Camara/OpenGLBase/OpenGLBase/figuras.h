@@ -5,6 +5,7 @@
 
 #include "glm.hpp"
 #include "ext.hpp"
+#include "Shader.h"
 
 typedef vec2 Punto2D;
 
@@ -40,6 +41,9 @@ struct Circulo {
 
 struct Rectangulo {
 	Punto2D pos = {0,0};
+	float scl = 1.0f;
+	float rot = 0.0f;
+
 	vec2 vel = {0,0};
 	vec2 diagonal;
 	glm::mat4 transf_interna = glm::mat4(1.0f);
@@ -56,7 +60,7 @@ struct Rectangulo {
 	void transform(glm::mat4 transformacion);
 
 	// renderizado
-	void draw();
+	void draw(Shader sh);
 
 	// colisiones
 	bool colision(Rectangulo r);
@@ -83,10 +87,7 @@ struct RectanguloRotado {
 		semiLongitudH(semiLongitudH * cos(glm::radians(angulo)), semiLongitudV * sin(glm::radians(angulo))),
 		semiLongitudV(semiLongitudH * cos(glm::radians(angulo + 90)), semiLongitudV * sin(glm::radians(angulo + 90))) {}
 
-	/*RectanguloRotado(vec2 semiLongitudH, vec2 semiLongitudV) :
-		semiLongitudH(semiLongitudH), semiLongitudV(semiLongitudV) {
-	}*/
-
+	
 	// transformaciones
 	void transform(glm::mat4 transformacion);
 

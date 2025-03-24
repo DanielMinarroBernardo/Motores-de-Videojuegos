@@ -76,9 +76,11 @@ int main() {
 
 		"uniform mat4 view;\n"
 		"uniform mat4 model;\n"
+		"uniform mat4 proj;\n"
+
 		"void main() {\n"
 
-		"	gl_Position = view * model * vec4(posicion, 0.0f, 1.0f);\n"
+		"	gl_Position = proj * view * model * vec4(posicion, 0.0f, 1.0f);\n"
 		"	colorVertice = color;\n"
 		"}\0";
 
@@ -106,10 +108,14 @@ int main() {
 	/*Rectangulo r(
 		{ 10,40 }, { 100,170 }
 	);*/
-	Rectangulo r(
-		{ 0.0f, 0.0f }, { 0.5f, 0.5f }
-	);
+	 
+	/*Rectangulo r(
+		{ 20.0f, 20.0f }, { 30.0f, 30.0f }
+	);*/
 
+	Rectangulo r(
+		{ 0.25f, 0.25f }, { 0.5f, 0.5f }
+	);
 	//Rectangulo r2(
 	//	{ 150,150 }, { 230,230 }
 	//);
@@ -213,12 +219,12 @@ int main() {
 		if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			/*r.vel.x = 100.0f;
 			r.dirty_flag = true;*/
-			camara_x -= 0.05f;
+			r.pos.x += 0.05f;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			/*r.vel.x = -100.0f;
 			r.dirty_flag = true;*/
-			camara_x += 0.05f;
+			r.pos.x -= 0.05f;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE &&
 			glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE) {
@@ -228,10 +234,23 @@ int main() {
 		if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS) {
 			/*r.vel.y = -100.0f;
 			r.dirty_flag = true;*/
+			r.scl += 0.05;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS) {
 			/*r.vel.y = 100.0f;
 			r.dirty_flag = true;*/
+			r.scl -= 0.05;
+		}
+
+		if (glfwGetKey(ventana, GLFW_KEY_E) == GLFW_PRESS) {
+			/*r.vel.y = -100.0f;
+			r.dirty_flag = true;*/
+			r.rot -= 0.5;
+		}
+		else if (glfwGetKey(ventana, GLFW_KEY_Q) == GLFW_PRESS) {
+			/*r.vel.y = 100.0f;
+			r.dirty_flag = true;*/
+			r.rot += 0.5;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE && 
 			glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
@@ -272,6 +291,13 @@ int main() {
 		/*r.move(timeActualValue - timePastValue);*/
 
 
+		//PROYECCION 
+		// matriz ortogonal
+		//glm::mat4 transf_proj = glm::ortho(0.0f, 60.0f, 0.0f, 60.0f, 0.0f, 60.0f);
+		// matriz perspectiva
+		glm::mat4 transf_proj = glm::perspective(glm::radians(45.0f), (float)(W_WIDTH / W_HEIGHT), 0.0f, 100.0f);
+		sh2.setProjMatrix(transf_proj);
+
 
 
 		// CAMARA
@@ -298,10 +324,7 @@ int main() {
 
 		// Dibujo del rectangulo
 
-		glm::mat4 transf_rect = glm::mat4(1.0f);
-		transf_rect = glm::translate(transf_rect, glm::vec3(camara_x, 0.0f, 0.0f));
-		sh2.setModelMatrix(transf_rect);
-		r.draw();
+		r.draw(sh2);
 
 
 		

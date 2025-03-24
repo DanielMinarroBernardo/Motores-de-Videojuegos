@@ -62,6 +62,13 @@ void Shader::setModelMatrix(glm::mat4 transform) {
 	glUniformMatrix4fv(matriz_transf, 1, GL_FALSE, glm::value_ptr(transform));
 }
 
+void Shader::setProjMatrix(glm::mat4 transform)
+{
+	int matriz_transf = glGetUniformLocation(this->programID, "proj");
+
+	glUniformMatrix4fv(matriz_transf, 1, GL_FALSE, glm::value_ptr(transform));
+}
+
 void Shader::setViewMatrix(glm::mat4 transform) {
 	int matriz_transf = glGetUniformLocation(this->programID, "model");
 
