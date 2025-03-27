@@ -32,6 +32,8 @@ struct vec3 {
 
 	vec3(float x, float y, float z);
 	vec3& operator+ (vec3 otro);
+	vec3& operator- (vec3 otro);
+	vec3& operator= (vec3 otro);
 	float& operator[] (int i);
 	float prodEscalar (vec3 otro);
 	vec3 prodVectorial (vec3 otro);

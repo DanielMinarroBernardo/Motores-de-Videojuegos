@@ -8,6 +8,7 @@
 #include "Shader.h"
 
 typedef vec2 Punto2D;
+typedef vec3 Punto3D;
 
 class Linea2D {
 	Punto2D inicio;
@@ -128,10 +129,3 @@ struct Triangulo {
 
 	bool colision(Punto2D p);
 };
-
-
-
-
-
-
-

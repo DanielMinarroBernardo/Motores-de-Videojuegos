@@ -9,6 +9,7 @@
 
 #include "figuras.h"
 #include "Shader.h"
+#include "figuras3d.h"
 
 #include <glm.hpp>
 #include <ext.hpp>
@@ -69,7 +70,7 @@ int main() {
 	std::string vertexShaderCode2 =
 		"#version 330 core\n"
 
-		"layout (location = 0) in vec2 posicion; \n"
+		"layout (location = 0) in vec3 posicion; \n"
 		"layout (location = 1) in vec3 color; \n"
 
 		"out vec3 colorVertice;\n"
@@ -80,7 +81,7 @@ int main() {
 
 		"void main() {\n"
 
-		"	gl_Position = proj * view * model * vec4(posicion, 0.0f, 1.0f);\n"
+		"	gl_Position = proj * view * model * vec4(posicion, 1.0f);\n"
 		"	colorVertice = color;\n"
 		"}\0";
 
@@ -113,9 +114,9 @@ int main() {
 		{ 20.0f, 20.0f }, { 30.0f, 30.0f }
 	);*/
 
-	Rectangulo r(
+	/*Rectangulo r(
 		{ 0.25f, 0.25f }, { 0.5f, 0.5f }
-	);
+	);*/
 	//Rectangulo r2(
 	//	{ 150,150 }, { 230,230 }
 	//);
@@ -127,12 +128,13 @@ int main() {
 		{0.0f,0.0f}, 0.25f, 0.1f, 90
 	);*/
 
-	Circulo c(
+	/*Circulo c(
 		50, { 150, 190 }
+	);*/
+
+	Cubo cubo(
+		{ 0.0f, 0.0f, 0.0f }, { 0.5f, 0.5f, 0.5f }
 	);
-
-
-
 
 
 
@@ -194,11 +196,15 @@ int main() {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	float camara_x = 0;
-	float camara_y = 0;
+	vec3 camara_pos({ 0.0f, 0.0f, 3.0f });
+	vec3 camara_direction();
+	
+
+
+	glEnable(GL_DEPTH_TEST);//Face Culling
 
 	do {
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// INICIO
 
 		
@@ -219,12 +225,12 @@ int main() {
 		if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			/*r.vel.x = 100.0f;
 			r.dirty_flag = true;*/
-			r.pos.x += 0.05f;
+			cubo.pos.x += 0.05f;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			/*r.vel.x = -100.0f;
 			r.dirty_flag = true;*/
-			r.pos.x -= 0.05f;
+			cubo.pos.x -= 0.05f;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_RIGHT) == GLFW_RELEASE &&
 			glfwGetKey(ventana, GLFW_KEY_LEFT) == GLFW_RELEASE) {
@@ -234,23 +240,23 @@ int main() {
 		if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS) {
 			/*r.vel.y = -100.0f;
 			r.dirty_flag = true;*/
-			r.scl += 0.05;
+			cubo.scl += 0.05;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS) {
 			/*r.vel.y = 100.0f;
 			r.dirty_flag = true;*/
-			r.scl -= 0.05;
+			cubo.scl -= 0.05;
 		}
 
 		if (glfwGetKey(ventana, GLFW_KEY_E) == GLFW_PRESS) {
 			/*r.vel.y = -100.0f;
 			r.dirty_flag = true;*/
-			r.rot -= 0.5;
+			cubo.rot -= 0.5;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_Q) == GLFW_PRESS) {
 			/*r.vel.y = 100.0f;
 			r.dirty_flag = true;*/
-			r.rot += 0.5;
+			cubo.rot += 0.5;
 		}
 		else if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE && 
 			glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_RELEASE) {
@@ -295,12 +301,17 @@ int main() {
 		// matriz ortogonal
 		//glm::mat4 transf_proj = glm::ortho(0.0f, 60.0f, 0.0f, 60.0f, 0.0f, 60.0f);
 		// matriz perspectiva
-		glm::mat4 transf_proj = glm::perspective(glm::radians(45.0f), (float)(W_WIDTH / W_HEIGHT), 0.0f, 100.0f);
+		glm::mat4 transf_proj = glm::perspective(glm::radians(45.0f), (float)(W_WIDTH / W_HEIGHT), 0.1f, 100.0f);
 		sh2.setProjMatrix(transf_proj);
 
 
 
 		// CAMARA
+
+		//camara_direction = camara_pos - cubo.pos;
+		glm::mat4 trans_look = glm::mat4(1.0f);
+		trans_look = glm::lookAt(camara_pos, cubo.pos, glm::vec3(0.0f, 1.0f, 0.0f));
+
 
 		glm::mat4 transf_camara = glm::mat4(1.0f);
 		//transf_camara = glm::translate(transf_camara, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -324,7 +335,7 @@ int main() {
 
 		// Dibujo del rectangulo
 
-		r.draw(sh2);
+		cubo.draw(sh2);
 
 
 		

@@ -93,7 +93,25 @@ vec3& vec3::operator+ (vec3 otro) {
 	resultado.z = this->z + otro.z;
 	return resultado;
 }
+
+vec3& vec3::operator-(vec3 otro)
+{
+	vec3 resultado(0, 0, 0);
+	resultado.x = this->x - otro.x;
+	resultado.y = this->y - otro.y;
+	resultado.z = this->z - otro.z;
+	return resultado;
+}
  
+vec3& vec3::operator=(vec3 otro)
+{
+	vec3 resultado(0, 0, 0);
+	resultado.x = otro.x;
+	resultado.y = otro.y;
+	resultado.z = otro.z;
+	return resultado;
+}
+
 float& vec3::operator[] (int indice) {
 	if (indice == 0) {
 		return this->x;

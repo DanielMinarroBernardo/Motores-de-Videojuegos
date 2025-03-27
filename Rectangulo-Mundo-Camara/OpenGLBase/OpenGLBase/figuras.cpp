@@ -302,7 +302,7 @@ void Rectangulo::draw(Shader sh) {
 				0.0f + diagonal.x * 2, 0.0f,							0.0f, 0.0f, 1.0f, // 7
 			};
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 16, vertices, GL_DYNAMIC_DRAW);
-			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0); 
 			glEnableVertexAttribArray(0);
 		}
 
