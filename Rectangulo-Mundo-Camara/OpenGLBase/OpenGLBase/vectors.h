@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <glm.hpp>
+#include <ext.hpp>
 
 struct vec2 {
 	float x;
@@ -37,6 +39,8 @@ struct vec3 {
 	float& operator[] (int i);
 	float prodEscalar (vec3 otro);
 	vec3 prodVectorial (vec3 otro);
+
+	static glm::mat4 lookAt(vec3 cam_pos, vec3 obj_pos, vec3 up);
 };
 
 

@@ -20,6 +20,29 @@ GLFWwindow* ventana;
 const unsigned int W_WIDTH = 1024;
 const unsigned int W_HEIGHT = 768;
 
+float lastX = W_WIDTH / 2.0f;
+float lastY = W_HEIGHT / 2.0f;
+
+float yaw = -90.0f;
+float pitch = 0.0f;
+
+
+
+glm::vec3 pos_camera = glm::vec3(0.0f, 0.0f, 30.0f);
+glm::vec3 front_camera = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 up_camera = glm::vec3(0.0f, 1.0f, 0.0f);
+
+glm::vec3 mouse_direcion;
+// direccion.x = cos(yaw) * cos(pitch)
+// direccion.y = pitch
+// direccion.z = sin(yaw) * cos(pitch)
+
+
+
+
+
+void funcion_mouse(GLFWwindow* window, double xpos, double ypos);
+
 int main() {
 
 	glfwInit();
@@ -101,9 +124,9 @@ int main() {
 
 
 
-	Triangulo t(
-		{ 230,100}, { 60,600 }, {15,15}
-	);
+	//Triangulo t(
+	//	{ 230,100}, { 60,600 }, {15,15}
+	//);
 
 
 	/*Rectangulo r(
@@ -203,6 +226,10 @@ int main() {
 
 	glEnable(GL_DEPTH_TEST);//Face Culling
 
+
+	glfwSetInputMode(ventana, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// INICIO
@@ -211,13 +238,9 @@ int main() {
 		sh2.use();
 		/*timePastValue = timeActualValue;
 		timeActualValue = glfwGetTime();*/
-
 		//verde_cambiante = sin(timeValue);
-
-
 		//std::cout << timeActualValue - timePastValue << "\n";
-
-
+		
 		// Input
 
 	
@@ -264,29 +287,35 @@ int main() {
 		}
 		
 
+		//FIRST PERSON VIEW
+		const float cameraSpeed = 0.05f;
+		if (glfwGetKey(ventana, GLFW_KEY_W) == GLFW_PRESS) {
+			pos_camera += cameraSpeed * front_camera;
+		}
+		else if (glfwGetKey(ventana, GLFW_KEY_S) == GLFW_PRESS) {
+			pos_camera -= cameraSpeed * front_camera;
+		}
+		if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS) {
+			pos_camera -= glm::normalize(glm::cross(front_camera, up_camera)) * cameraSpeed;
+		}
+		else if (glfwGetKey(ventana, GLFW_KEY_D) == GLFW_PRESS) {
+			pos_camera += glm::normalize(glm::cross(front_camera, up_camera)) * cameraSpeed;
+		}
+		
+		glfwSetCursorPosCallback(ventana, funcion_mouse);
 
 
 		sh2.setColor({ 1.0f, 0.7f, 0.1f });
-
-
 		//transf_total = glm::scale(transf_total, glm::vec3(0.5f, 1.0f, 1.0f));
 		//transf_total = glm::rotate(transf_total, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		//transf_model = glm::translate(transf_model, glm::vec3(0.5f, 0.0f, 0.0f));
-		
-
 		//transf_view = glm::translate(transf_view, glm::vec3(0.5f, 0.0f, 0.0f));
-
-		
-
-
-
 		//glm::mat4 transf_model = glm::mat4(1.0f);
 		//transf_model = glm::scale(transf_model, glm::vec3(0.5f, 1.0f, 1.0f));
 		//transf_model = glm::rotate(transf_model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		//r.transform(transf_model);
-		
-		
 		//// Fisicas
+		
 		//if (r.colision(c)) {
 		//	sh1.setColor({ 1.0f, 0.7f, 0.1f });
 		//}
@@ -294,10 +323,11 @@ int main() {
 		//	sh1.setColor({ 0.5f, verde_cambiante, 0.5f });
 		//}
 		//
-		/*r.move(timeActualValue - timePastValue);*/
+		//r.move(timeActualValue - timePastValue);
 
 
 		//PROYECCION 
+		
 		// matriz ortogonal
 		//glm::mat4 transf_proj = glm::ortho(0.0f, 60.0f, 0.0f, 60.0f, 0.0f, 60.0f);
 		// matriz perspectiva
@@ -310,12 +340,18 @@ int main() {
 
 		//camara_direction = camara_pos - cubo.pos;
 		glm::mat4 trans_look = glm::mat4(1.0f);
-		trans_look = glm::lookAt(camara_pos, cubo.pos, glm::vec3(0.0f, 1.0f, 0.0f));
 
+		const float radio_giro = 2;
+		float camX = sin(glfwGetTime()) * radio_giro;
+		float camZ = cos(glfwGetTime()) * radio_giro;
+
+		//trans_look = glm::lookAt(glm::vec3(camX,0,camZ), glm::vec3(0, 0, 0),glm::vec3(0.0f, 1.0f, 0.0f));
+		//trans_look = vec3::lookAt(vec3(camX, 0,camZ), vec3(0, 0, 0), vec3(0, 1, 0));
+		trans_look = glm::lookAt(pos_camera, pos_camera + front_camera, up_camera);
 
 		glm::mat4 transf_camara = glm::mat4(1.0f);
 		//transf_camara = glm::translate(transf_camara, glm::vec3(0.0f, 0.0f, 0.0f));
-		sh2.setViewMatrix(transf_camara);
+		sh2.setViewMatrix(trans_look);
 
 
 
@@ -324,8 +360,8 @@ int main() {
 
 		//Dibujo de los ejes
 
-		glm::mat4 transf_ejes = glm::mat4(1.0f);
-		sh2.setModelMatrix(transf_ejes);
+		//glm::mat4 transf_ejes = glm::mat4(1.0f);
+		//sh2.setModelMatrix(transf_ejes);
 
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_LINES, 0, 4);
@@ -363,4 +399,35 @@ int main() {
 
 
 	return 0;
+}
+
+void funcion_mouse(GLFWwindow* window, double xpos, double ypos) {
+	
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+	lastX = xpos;
+	lastY = ypos;
+
+	float sensitivity = 0.1f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f) {
+		pitch = 89.0f;
+	}
+	if (pitch < -89.0f) {
+		pitch = -89.0f;
+	}
+
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+	front_camera = glm::normalize(direction);
+
 }

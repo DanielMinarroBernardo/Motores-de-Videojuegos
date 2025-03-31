@@ -106,7 +106,7 @@ void Cubo::draw(Shader sh) {
 		//Declarar posicion, rotacion y scala en el render
 
 		glm::mat4 transf_rect = glm::mat4(1.0f);
-		transf_rect = glm::translate(transf_rect, glm::vec3(pos.x, pos.y, -30.0f));
+		transf_rect = glm::translate(transf_rect, glm::vec3(pos.x, pos.y, -5.0f));
 		transf_rect = glm::scale(transf_rect, glm::vec3(scl, scl, scl));
 		transf_rect = glm::rotate(transf_rect, glm::radians(rot), glm::vec3(1.0f, 0.0f, 0.0f));
 		sh.setModelMatrix(transf_rect);

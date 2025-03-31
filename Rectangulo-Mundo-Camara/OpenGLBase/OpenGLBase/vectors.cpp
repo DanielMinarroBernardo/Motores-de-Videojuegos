@@ -141,4 +141,29 @@ vec3 vec3::prodVectorial(vec3 otro) {
 	return resultado;
 }
 
+glm::mat4 vec3::lookAt(vec3 cam_pos, vec3 obj_pos, vec3 up)
+{
+	glm::vec3 cam_pos_glm(cam_pos.x, cam_pos.y, cam_pos.z);
+	glm::vec3 obj_pos_glm(obj_pos.x, obj_pos.y, obj_pos.z);
+	glm::vec3 up_glm(up.x, up.y, up.z);
+
+	glm::vec3 vector_direccion = glm::normalize(cam_pos_glm - obj_pos_glm);
+	glm::vec3 vector_derecha = glm::normalize(glm::cross(up_glm, vector_direccion));
+	glm::vec3 vector_arriba = glm::cross(vector_direccion, vector_derecha);
+
+	glm::mat4 result(
+		glm::vec4(vector_derecha, 0),
+		glm::vec4(vector_arriba, 0),
+		glm::vec4(vector_direccion, 0),
+		glm::vec4(0,0,0, 1)
+	);
+	glm::mat4 translacion(
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		-cam_pos_glm.x, -cam_pos_glm.y, -cam_pos_glm.z, 1
+	);
+	return result * translacion;
+}
+
 
