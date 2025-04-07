@@ -132,7 +132,7 @@ int main() {
 		"	float nivel_specularidad = pow(max(dot(dir_vista, dir_reflect), 0.0 ),32);\n"
 		"	vec3 result_specular = colorVertice * nivel_specularidad * intensidadSpecular;\n"
 
-		"   FragColor = vec4(result_specular,1.0);\n"
+		"   FragColor = vec4(result_specular + result_difusa + nivel_specularidad,1.0);\n"
 		"}\0";
 
 	Shader sh2(vertexShaderCode2, fragmentShaderCode2);
