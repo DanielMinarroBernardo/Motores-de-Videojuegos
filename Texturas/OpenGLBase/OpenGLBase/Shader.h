@@ -29,6 +29,8 @@ public:
 	void setLuzPos(vec3 color);
 	void setPosVista(glm::vec3 color);
 
+	void setMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float radio_brillo);
+
 };
 
 

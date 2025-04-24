@@ -22,8 +22,8 @@ GLFWwindow* ventana;
 const unsigned int W_WIDTH = 1024;
 const unsigned int W_HEIGHT = 768;
 
-float last_x = W_WIDTH / 2, last_y = W_HEIGHT / 2;
-float yaw = -90.0f, pitch = 0;
+	float last_x = W_WIDTH / 2, last_y = W_HEIGHT / 2;
+	float yaw = -90.0f, pitch = 0;
 
 glm::vec3 pos_camara = glm::vec3(0, 0, 3);
 glm::vec3 frente_camara = glm::vec3(0, 0, -1);
@@ -104,18 +104,26 @@ int main() {
 
 		"uniform vec3 viewPos;\n"
 
+		"struct Material {\n"
+		"	vec3 ambient;\n"
+		"	vec3 diffuse;\n"
+		"	vec3 specular;\n"
+		"	float radio_brillo;\n"
+		"};\n"
+
+		"uniform Material material;\n"
 
 		"void main() {\n"
 
 		//luz ambiente
-		"	float intensidadAmbiente = 0.5f;\n"	//esta el la luz que controla lo "oscuro" que es el viewport
-		"	vec3 luzAmbiente = colorAmbiente * intensidadAmbiente;\n"
+		"	vec3 luzAmbiente = colorAmbiente * material.ambient;\n"
 
 		//luz difusa
 		"	vec3 normal_asegurada = normalize(Normal);\n"
 		"	vec3 dir_luz = normalize(Posicion_Frag - lightPos);\n"
 
 		"   float angulo = max(dot(normal_asegurada, dir_luz),0.0f);\n"
+		"	vec3 result_difusa = colorVertice * angulo ** material.diffuse;\n"
 		
 		//luz especular
 
@@ -127,10 +135,9 @@ int main() {
 
 		//"    FragColor = vec4(colorVertice, 1.0f); \n"
 		"	vec3 result_ambiente = colorVertice * luzAmbiente;\n"
-		"	vec3 result_difusa = colorVertice * angulo;\n"
 
-		"	float nivel_specularidad = pow(max(dot(dir_vista, dir_reflect), 0.0 ),32);\n"
-		"	vec3 result_specular = colorVertice * nivel_specularidad * intensidadSpecular;\n"
+		"	float nivel_specularidad = pow(max(dot(dir_vista, dir_reflect), 0.0 ),material.radio_brillo);\n"
+		"	vec3 result_specular = colorVertice * nivel_specularidad * material.specular;\n"
 
 		"   FragColor = vec4(result_specular + result_difusa + nivel_specularidad,1.0);\n"
 		"}\0";
@@ -155,7 +162,9 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO2);
 
 	unsigned int trianglVertexIndex[] = {
-		0, 1, 2
+		0, 1, 2,
+		3, 4, 5,
+		6, 7, 8
 	};
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 3, 
 		trianglVertexIndex, GL_DYNAMIC_DRAW);
@@ -168,7 +177,17 @@ int main() {
 		// x,y,z	 colores		texturas		normales
 		0, 0, 0,	0, 0.5, 0.5,	0,0,			0,0,1,
 		0, 1, 0,	0, 0.5, 0.5,	0,1,			0,0,1,
-		1, 1, 0,	0, 0.5, 0.5,	1,1,			0,0,1
+		1, 1, 0,	0, 0.5, 0.5,	1,1,			0,0,1,
+
+		// x,y,z	 colores		texturas		normales
+		0, 0, 0,	0, 0.5, 0.5,	0,0,			-1,0,1,
+		0, 1, 0,	0, 0.5, 0.5,	0,1,			-1,0,1,
+		0, 1, -1,	0, 0.5, 0.5,	1,1,			-1,0,1,
+
+		// x,y,z	 colores		texturas		normales
+		0, 1, 0,	0, 0.5, 0.5,	0,0,			0,1,0,
+		1, 1, 0,	0, 0.5, 0.5,	0,1,			0,1,0,
+		0, 1, -1,	0, 0.5, 0.5,	1,1,			0,1,0
 	};
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 33,
 
@@ -380,9 +399,7 @@ int main() {
 
 		//transf_proj = glm::ortho(-30.0f, 30.0f, -30.0f, 30.0f, -300.0f, 130.0f);
 		transf_proj = glm::perspective(glm::radians(45.0f),
-			(float)W_WIDTH / W_HEIGHT,
-			0.1f,
-			100.0f
+			(float)W_WIDTH / W_HEIGHT,0.1f,100.0f
 		);
 
 		sh2.setProjMatrix(transf_proj);
@@ -426,10 +443,16 @@ int main() {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// Triangulo con textura
+		sh2.setMaterial(
+			{ 0.2551,0.515131,0.1851 },
+			{ 0.5132,0.6516,0.6456 },
+			{ 0.158,0.194,0.958945 },
+			0.4 * 32.0f
+		);
 
 		glBindTexture(GL_TEXTURE_2D, text_1_id);
 		glBindVertexArray(VAO2);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		
 

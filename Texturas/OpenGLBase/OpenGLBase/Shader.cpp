@@ -100,3 +100,17 @@ void Shader::setPosVista(glm::vec3 color)
 
 	glUniform3f(modificador_color, color.x, color.y, color.z);
 }
+
+
+void Shader::setMaterial(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float radio_brillo)
+{
+	int modificador_ambiente = glGetUniformLocation(this->programID, "material.ambient");
+	int modificador_difuso = glGetUniformLocation(this->programID, "material.diffuse");
+	int modificador_specular = glGetUniformLocation(this->programID, "material.specular");
+	int modificador_brillo = glGetUniformLocation(this->programID, "material.radio_brillo");
+	
+	glUniform3f(modificador_ambiente, ambient.x, ambient.y, ambient.z);
+	glUniform3f(modificador_difuso, diffuse.x, diffuse.y, diffuse.z);
+	glUniform3f(modificador_specular, specular.x, specular.y, specular.z);
+	glUniform1f(modificador_brillo, radio_brillo);
+}
