@@ -141,7 +141,9 @@ int main() {
 	Shader sh2(vertexShaderCode2, fragmentShaderCode2);
 
 	PhysicalObject cubo(CUBO);
-	cubo.addCube(new Cubo({ 0.0f, 700.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }));
+	cubo.addCube(new Cubo(
+		{ 0.0f, 700.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }
+	));
 
 
 
