@@ -17,6 +17,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include "ft2build.h"
+#include FT_FREETYPE_H
+
+#include <map>
+
 
 GLFWwindow* ventana;
 const unsigned int W_WIDTH = 1024;
@@ -32,6 +37,14 @@ glm::vec3 up_camara = glm::vec3(0, 1, 0);
 bool primerMov = true;
 
 void funcion_mouse(GLFWwindow* ventana, double x, double y);
+
+struct Caracter {
+	unsigned int id;
+	glm::ivec2 tamano;
+	glm::ivec2 bearing;
+	unsigned int advance;
+};
+
 
 
 int main() {
@@ -51,6 +64,70 @@ int main() {
 	glewExperimental = GL_TRUE;
 
 	glewInit();
+	
+	
+	// Inizializar el Freetype
+
+	FT_Library ftl;
+
+	if (FT_Init_FreeType(&ftl)) {
+		std::cout << "Freetype no esta funcionando" << std::endl;
+		return -1;
+	}
+	else {
+		std::cout << "Freetype esta funcionando" << std::endl;
+	}
+
+
+	FT_Face fuente;
+	if (FT_New_Face(ftl, "../font/Lexend.ttf", 0, &fuente)) {
+		std::cout << "No se ha cargado la fuente" << std::endl;
+		return -1;
+	}
+	else {
+		std::cout << "Fuente cargada con esxito" << std::endl;
+
+	}
+
+	FT_Set_Pixel_Sizes(fuente, 0, 50);
+	
+	std::map<char, Caracter> lista_caracteres;
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Alinear a 1 byte
+
+
+	for (unsigned char c = 0; c < 128; c++) {
+
+		FT_Load_Char(fuente, c, FT_LOAD_RENDER);
+
+		unsigned int texture_id;
+
+		glGenTextures(1, &texture_id);
+		glBindTexture(GL_TEXTURE_2D, texture_id);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,
+			fuente->glyph->bitmap.width, fuente->glyph->bitmap.rows,
+			0, GL_RED, GL_UNSIGNED_BYTE, fuente->glyph->bitmap.buffer);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		Caracter structura_c = {
+			texture_id,
+			glm::ivec2(fuente->glyph->bitmap.width, fuente->glyph->bitmap.rows),
+			glm::ivec2(fuente->glyph->bitmap_left, fuente->glyph->bitmap_top),
+			(unsigned int)fuente->glyph->advance.x
+		};
+
+		lista_caracteres.insert(std::pair<char, Caracter>(c, structura_c));
+	}
+
+	//Limpieza de la memoria
+
+	FT_Done_Face(fuente);
+	FT_Done_FreeType(ftl);
 
 
 
@@ -134,8 +211,8 @@ int main() {
 
 		"	float nivel_espec = pow(max(dot(dir_view, dir_refl), 0.0), 128);\n"
 		"	vec3 result_especular = colorVertice * nivel_espec * 0.5;\n"
-
-		"   FragColor = vec4((result_especular + result_difusa + result_abiente), 1.0f);\n"
+		"	vec4 sample = vec4(1.0,1.0,1.0,texture(datosTextura,TexCoord).r ); \n"
+		"   FragColor = sample * vec4((result_especular + result_difusa + result_abiente), 1.0f);\n"
 		"}\0";
 
 	Shader sh2(vertexShaderCode2, fragmentShaderCode2);
@@ -166,62 +243,62 @@ int main() {
 
 
 	// DEF - TRIANGULO
-	unsigned int VAO2;
-	glGenVertexArrays(1, &VAO2);
-	glBindVertexArray(VAO2); // Empezar a definir el VAO del triangulo
+	//unsigned int VAO2;
+	//glGenVertexArrays(1, &VAO2);
+	//glBindVertexArray(VAO2); // Empezar a definir el VAO del triangulo
 
-	unsigned int IBO2;
-	glGenBuffers(1, &IBO2);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO2);
+	//unsigned int IBO2;
+	//glGenBuffers(1, &IBO2);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO2);
 
-	unsigned int trianglVertexIndex[] = {
-		0, 1, 2,
-		3, 4, 5,
-		6, 7, 8
-	};
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 9, 
-		trianglVertexIndex, GL_DYNAMIC_DRAW);
+	//unsigned int trianglVertexIndex[] = {
+	//	0, 1, 2,
+	//	3, 4, 5,
+	//	6, 7, 8
+	//};
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * 9, 
+	//	trianglVertexIndex, GL_DYNAMIC_DRAW);
 
-	unsigned int VBO2;
-	glGenBuffers(1, &VBO2);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	//unsigned int VBO2;
+	//glGenBuffers(1, &VBO2);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO2);
 
-	float trianglVertex[] = {
-		// x,y,z	 colores		texturas	normal
-		0, 0, 0,	0.5, 0.5, 0,	0,0,		0,0,1,
-		0, 1, 0,	0.5, 0.5, 0,	0,1,		0,0,1,
-		1, 1, 0,	0.5, 0.5, 0,	1,1,		0,0,1,
+	//float trianglVertex[] = {
+	//	// x,y,z	 colores		texturas	normal
+	//	0, 0, 0,	0.5, 0.5, 0,	0,0,		0,0,1,
+	//	0, 1, 0,	0.5, 0.5, 0,	0,1,		0,0,1,
+	//	1, 1, 0,	0.5, 0.5, 0,	1,1,		0,0,1,
 
-		// x,y,z	 colores		texturas	normal
-		0, 0, 0,	0.5, 0.5, 0,	0,0,		-1,0,0,
-		0, 1, 0,	0.5, 0.5, 0,	0,1,		-1,0,0,
-		0, 1, -1,	0.5, 0.5, 0,	1,1,		-1,0,0,
+	//	// x,y,z	 colores		texturas	normal
+	//	0, 0, 0,	0.5, 0.5, 0,	0,0,		-1,0,0,
+	//	0, 1, 0,	0.5, 0.5, 0,	0,1,		-1,0,0,
+	//	0, 1, -1,	0.5, 0.5, 0,	1,1,		-1,0,0,
 
-		// x,y,z	 colores		texturas	normal
-		0, 1, 0,	0.5, 0.5, 0,	0,0,		0,1,0,
-		1, 1, 0,	0.5, 0.5, 0,	0,1,		0,1,0,
-		0, 1, -1,	0.5, 0.5, 0,	1,1,		0,1,0
-	};
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9 * (3 + 3 + 2 + 3),
+	//	// x,y,z	 colores		texturas	normal
+	//	0, 1, 0,	0.5, 0.5, 0,	0,0,		0,1,0,
+	//	1, 1, 0,	0.5, 0.5, 0,	0,1,		0,1,0,
+	//	0, 1, -1,	0.5, 0.5, 0,	1,1,		0,1,0
+	//};
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9 * (3 + 3 + 2 + 3),
 
-		trianglVertex, GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-		sizeof(float) * 11, (void*)0);
-	glEnableVertexAttribArray(0);
+	//	trianglVertex, GL_DYNAMIC_DRAW);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+	//	sizeof(float) * 11, (void*)0);
+	//glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
-		sizeof(float) * 11, (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+	//	sizeof(float) * 11, (void*)(3 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
-		sizeof(float) * 11, (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+	//	sizeof(float) * 11, (void*)(6 * sizeof(float)));
+	//glEnableVertexAttribArray(2);
 
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
-		sizeof(float) * 11, (void*)(8 * sizeof(float)));
-	glEnableVertexAttribArray(3);
+	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+	//	sizeof(float) * 11, (void*)(8 * sizeof(float)));
+	//glEnableVertexAttribArray(3);
 
-	glBindVertexArray(0); // Dejar de definir el VAO del triangulo
+	//glBindVertexArray(0); // Dejar de definir el VAO del triangulo
 
 
 	// Texturas
@@ -311,9 +388,66 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glEnable(GL_DEPTH_TEST); // FACE CULLING
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+
+	//UI - Cruceta
+
+
+	unsigned int VAO2; // vertex array object
+	glGenVertexArrays(1, &VAO2);
+	glBindVertexArray(VAO2);
+
+
+	unsigned int VBO2; // vertex buffer object
+	glGenBuffers(1, &VBO2);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+
+
+	unsigned int IBO2;
+	glGenBuffers(1, &IBO2);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO2);
+
+	unsigned int indices2[] = {
+		0,1,2,
+		2,3,0
+	};
+
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof())
+
+
+	float vertices2[] = {
+			0.8f, 0.8f, 0.0f,			0.6f, 0.6f, 0.6f,		0,0, // Cruzeta x
+			1.0f, 0.8f, 0.0f,			0.6f, 0.6f, 0.6f,		0,1,
+			1.0f, 1.0f, 0.0f,			0.6f, 0.6f, 0.6f,		0,0, // Eje y
+			1.0f, 1.0f, 0.0f,			0.6f, 0.6f, 0.6f,		0,1
+	};
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 32, vertices2, GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	// Unbind
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+
+
 
 
 	
+
+
+
 	glm::vec3 mouse_dir;
 
 
@@ -470,7 +604,7 @@ int main() {
 		);
 
 		sh2.setPosView(pos_camara);
-		sh2.setViewMatrix(transf_camara);
+		sh2.setViewMatrix(glm::scale(transf_camara,{1,1,2}));
 
 
 		// Render
@@ -499,11 +633,35 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);*/
 		
+		glActiveTexture(GL_TEXTURE0);
+		Caracter struct_c = lista_caracteres['m'];
+
+
+		glBindTexture(GL_TEXTURE_2D, struct_c.id);
+		//sh2.setTexture();
 
 		// Dibujo del rectangulo
 		cubo.draw(sh2);
-		cubo2.draw(sh2);
+		//cubo2.draw(sh2);
 		suelo.draw(sh2);
+
+		
+
+		//Dibujo de la Cruceta
+		transf_ejes = glm::mat4(1.0f);
+		sh2.setModelMatrix(transf_ejes);
+		sh2.setViewMatrix(transf_ejes);
+		sh2.setProjMatrix(transf_ejes);
+
+		glBindVertexArray(VAO2);
+		//glDrawArrays(GL_LINES, 0, 4);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+
+
 
 
 
